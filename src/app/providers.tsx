@@ -8,7 +8,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 import { useState, useEffect } from 'react';
 
 const config = getDefaultConfig({
-  appName: 'Arina Social App',
+  appName: 'Arena Social App',
   projectId: '16117c6209952ea225a638cef8488bee',
   chains: [mainnet, sepolia],
 });

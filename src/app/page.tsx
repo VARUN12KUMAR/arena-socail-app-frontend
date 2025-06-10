@@ -76,11 +76,10 @@ export default function Home() {
   // Show loading state during hydration
   if (!mounted) {
     return (
-      <main className="min-h-screen p-8 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center py-12">
-            <p>Loading...</p>
-          </div>
+      <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500">
+        <div className="text-center">
+          <div className="text-white text-3xl font-bold animate-pulse mb-4">Arena Social</div>
+          <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto"></div>
         </div>
       </main>
     );
@@ -88,11 +87,23 @@ export default function Home() {
 
   if (!isConnected) {
     return (
-      <main className="min-h-screen flex flex-col items-center justify-center p-24">
-        <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm">
-          <h1 className="text-4xl font-bold mb-8 text-center">Welcome to Arina Social</h1>
-          <div className="flex justify-center">
-            <ConnectButton />
+      <main style={{ minHeight: '100vh', width: '100vw', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #4f46e5 0%, #a21caf 50%, #ec4899 100%)' }}>
+        <div style={{ width: '100%', maxWidth: 400, padding: 32, background: 'rgba(255,255,255,0.08)', borderRadius: 24, boxShadow: '0 8px 32px rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.15)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <h1 style={{ fontSize: 48, fontWeight: 800, color: 'white', marginBottom: 8, textAlign: 'center', letterSpacing: '-0.03em' }}>
+            Arena
+            <span style={{ background: 'linear-gradient(90deg, #facc15, #fb923c)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              Social
+            </span>
+          </h1>
+          <p style={{ fontSize: 18, color: '#c7d2fe', fontWeight: 500, marginTop: 8, marginBottom: 32, textAlign: 'center' }}>
+            Connect, share, and engage with your Ethereum wallet
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+            <ConnectButton 
+              chainStatus="icon" 
+              showBalance={false} 
+              accountStatus="address" 
+            />
           </div>
         </div>
       </main>
@@ -105,21 +116,38 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-50 p-0">
-      <div className="max-w-3xl mx-auto py-10 px-2 sm:px-0">
-        <div className="flex flex-col items-center mb-8">
-          <h1 className="text-4xl font-extrabold text-blue-700 mb-2 drop-shadow">Arina Social</h1>
-          <ConnectButton />
+    <main className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500">
+      {/* Header Section */}
+      <div className="bg-white/10 backdrop-blur-lg border-b border-white/20">
+        <div className="max-w-4xl mx-auto px-4 py-6">
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+              Arena
+              <span className="bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+                Social
+              </span>
+            </h1>
+            <div className="transform hover:scale-105 transition-transform duration-200">
+              <ConnectButton />
+            </div>
+          </div>
         </div>
+      </div>
 
+      {/* Main Content */}
+      <div className="max-w-4xl mx-auto px-4 py-8">
         {isLoading ? (
-          <div className="text-center py-12">
-            <p>Loading...</p>
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center">
+              <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-white text-lg font-medium">Loading your feed...</p>
+            </div>
           </div>
         ) : (
-          <>
+          <div className="space-y-8">
+            {/* Profile Section */}
             {profile && address && (
-              <div className="mb-8">
+              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-xl">
                 <ProfileCard
                   walletAddress={address as string}
                   initialProfile={profile}
@@ -128,8 +156,9 @@ export default function Home() {
               </div>
             )}
 
+            {/* Post Composer Section */}
             {address && (
-              <div className="mb-8">
+              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-xl">
                 <PostComposer
                   walletAddress={address as string}
                   onPostCreated={fetchPosts}
@@ -137,16 +166,29 @@ export default function Home() {
               </div>
             )}
 
+            {/* Posts Feed */}
             <div className="space-y-6">
-              {posts.map((post) => (
-                <PostCard
-                  key={post.id}
-                  post={post}
-                  currentUserWallet={address as string}
-                />
-              ))}
+              {posts.length > 0 ? (
+                posts.map((post) => (
+                  <div 
+                    key={post.id} 
+                    className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-xl hover:bg-white/15 transition-all duration-300"
+                  >
+                    <PostCard
+                      post={post}
+                      currentUserWallet={address as string}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-16">
+                  <div className="text-6xl mb-4">📝</div>
+                  <h3 className="text-2xl font-bold text-white mb-2">No posts yet</h3>
+                  <p className="text-indigo-200 text-lg">Be the first to share something amazing!</p>
+                </div>
+              )}
             </div>
-          </>
+          </div>
         )}
       </div>
     </main>
