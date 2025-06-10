@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
         {/* Bootstrap Navbar */}
-        <nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-black mb-4">
           <div className="container-fluid">
             <a className="navbar-brand fw-bold" href="#">Arena Social</a>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
